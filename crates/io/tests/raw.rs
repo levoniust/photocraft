@@ -82,6 +82,52 @@ fn unsupported_raw_falls_back_to_the_embedded_preview() {
     assert!(r.warnings.first().is_some_and(|w| w.contains("Nikon compressed NEF") && w.contains("embedded")), "{:?}", r.warnings);
 }
 
+/// A raw whose sensor data is cut short (an interrupted card copy) but whose embedded JPEG is
+/// intact opens that JPEG with a warning, rather than failing.
+#[test]
+fn damaged_raw_falls_back_to_the_embedded_preview() {
+    let img = Image::from_u8(32, 20, ChannelLayout::Rgb, vec![180; 32 * 20 * 3]).unwrap();
+    let jpeg = photocraft_codecs::encode(&img, Format::Jpeg, &EncodeOptions::default()).unwrap();
+    // 8×8 uncompressed 16-bit CFA needs 128 bytes; the strip holds 64.
+    let damaged = |with_preview: bool| {
+        let mut t = TiffBuilder::default();
+        let strip = t.blob(vec![0; 64]);
+        let raw = t.ifd(vec![
+            (256, Val::Long(vec![8])),
+            (257, Val::Long(vec![8])),
+            (258, Val::Short(vec![16])),
+            (259, Val::Short(vec![1])),
+            (262, Val::Short(vec![32803])),
+            (273, Val::Blobs(vec![strip])),
+            (279, Val::Long(vec![64])),
+            (33421, Val::Short(vec![2, 2])),
+            (33422, Val::Byte(vec![0, 1, 1, 2])),
+        ]);
+        let mut tags = vec![(271, Val::Ascii("NIKON CORPORATION".into())), (330, Val::Ifds(vec![raw]))];
+        if with_preview {
+            let preview = t.blob(jpeg.clone());
+            tags.push((513, Val::Blobs(vec![preview])));
+            tags.push((514, Val::Long(vec![jpeg.len() as u32])));
+        }
+        t.chain = vec![t.ifd(tags)];
+        t.build()
+    };
+    match photocraft_raw::decode(&damaged(true), &photocraft_raw::Limits::default()) {
+        Err(photocraft_raw::RawError::Malformed(_)) => {}
+        other => panic!("the fixture must be damaged sensor data, got {other:?}"),
+    }
+    let r = import("DSC_0002.NEF", &damaged(true)).unwrap();
+    assert_eq!((r.document.size.width, r.document.size.height), (32, 20));
+    assert_eq!(r.document.depth, SampleType::U8);
+    assert!(r.warnings.first().is_some_and(|w| w.contains("damaged") && w.contains("embedded")), "{:?}", r.warnings);
+    // Without a preview it stays an error that names the damage.
+    match import("DSC_0003.NEF", &damaged(false)) {
+        Err(IoError::Raw(photocraft_raw::RawError::Malformed(_))) => {}
+        Err(e) => panic!("expected the raw's own error, got {e}"),
+        Ok(_) => panic!("damaged sensor data without a preview must not open"),
+    }
+}
+
 #[test]
 fn unsupported_raw_without_preview_is_a_clear_error() {
     let mut cr3 = vec![0, 0, 0, 24];
