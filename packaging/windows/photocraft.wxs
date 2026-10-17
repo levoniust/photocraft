@@ -119,6 +119,8 @@
         <RegistryValue Root="HKLM" Key="Software\Classes\.avif\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.qoi\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.ico\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.nef\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.nrw\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
 
         <!-- "Open with" app list and the Run dialog (Win+R "photocraft"). -->
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe" Name="FriendlyAppName" Value="PhotoCraft" Type="string" />
@@ -144,6 +146,8 @@
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".avif" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".qoi" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".ico" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".nef" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".nrw" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\App Paths\photocraft.exe" Value="[#PhotocraftExe]" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\PhotoCraft" Name="InstallDir" Value="[INSTALLFOLDER]" Type="string" />
       </Component>
