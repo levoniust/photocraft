@@ -225,6 +225,9 @@
         <string>com.ilm.openexr-image</string>
         <string>public.radiance</string>
         <string>public.avif</string>
+        <string>public.heic</string>
+        <string>public.heif</string>
+        <string>public.svg-image</string>
         <string>com.nikon.raw-image</string>
         <string>com.nikon.nrw-raw-image</string>
         <string>com.adobe.raw-image</string>

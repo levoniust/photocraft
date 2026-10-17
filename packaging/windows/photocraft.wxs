@@ -119,6 +119,11 @@
         <RegistryValue Root="HKLM" Key="Software\Classes\.avif\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.qoi\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.ico\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.heic\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.heif\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.hif\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.svg\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\.svgz\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.nef\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.nrw\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\.dng\OpenWithProgids" Name="Photocraft.Image" Value="" Type="string" />
@@ -156,6 +161,11 @@
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".avif" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".qoi" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".ico" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".heic" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".heif" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".hif" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".svg" Value="" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".svgz" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".nef" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".nrw" Value="" Type="string" />
         <RegistryValue Root="HKLM" Key="Software\Classes\Applications\photocraft.exe\SupportedTypes" Name=".dng" Value="" Type="string" />
