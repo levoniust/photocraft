@@ -1,7 +1,7 @@
 //! Camera raw files via `photocraft-raw`: developed to a 16-bit RGB document
 //! in ProPhoto RGB (the embedded profile is the built-in ProPhoto-compatible
-//! profile), or, for raw variants not decoded yet, the camera's embedded
-//! JPEG preview with a warning.
+//! profile), or, for raw variants not decoded yet and raws whose sensor data
+//! is damaged, the camera's embedded JPEG preview with a warning.
 //!
 //! Files without colour calibration (everything but DNG) get their colour
 //! from the camera's own embedded JPEG: `photocraft-raw` cannot decode JPEG,
@@ -255,23 +255,31 @@ pub fn import_raw_with(name: &str, bytes: &[u8], opts: &DevelopOptions) -> Resul
             let summary = format!("{DEVELOPED_NOTE} ({} demosaic, as-shot white balance)", opts.demosaic.id());
             developed_document(name, format, dev, &summary)
         }
-        Err(RawError::Unsupported(reason)) => match photocraft_raw::embedded_preview(bytes) {
-            Some(p) => {
-                let img = upright_preview(bytes, p.jpeg)?;
-                let mut r = image_to_document(name, &img)?;
-                r.warnings.insert(
-                    0,
-                    format!(
-                        "{format}: {reason} is not supported yet; opened the camera's embedded {}x{} JPEG preview instead (8-bit, not the raw sensor data)",
-                        p.width, p.height
-                    ),
-                );
-                Ok(r)
-            }
+        Err(RawError::Unsupported(reason)) => match preview_instead(name, bytes, format!("{format}: {reason} is not supported yet")) {
+            Some(r) => r,
             None => Err(IoError::Raw(RawError::Unsupported(reason))),
+        },
+        // A card copy cut short or a damaged sector usually spares the camera's JPEG, which sits
+        // before the sensor data: open that rather than nothing.
+        Err(RawError::Malformed(reason)) => match preview_instead(name, bytes, format!("{format}: the raw sensor data is damaged ({reason})")) {
+            Some(Ok(r)) => Ok(r),
+            // No preview, or a damaged one too: the raw's own error says more.
+            _ => Err(IoError::Raw(RawError::Malformed(reason))),
         },
         Err(e) => Err(IoError::Raw(e)),
     }
+}
+
+/// The raw's embedded JPEG preview as a document, its first warning `why` the sensor data was
+/// not developed. `None` when the file carries no usable preview.
+fn preview_instead(name: &str, bytes: &[u8], why: String) -> Option<Result<ImportResult, IoError>> {
+    let p = photocraft_raw::embedded_preview(bytes)?;
+    let mut r = match upright_preview(bytes, p.jpeg).and_then(|img| image_to_document(name, &img)) {
+        Ok(r) => r,
+        Err(e) => return Some(Err(e)),
+    };
+    r.warnings.insert(0, format!("{why}; opened the camera's embedded {}x{} JPEG preview instead (8-bit, not the raw sensor data)", p.width, p.height));
+    Some(Ok(r))
 }
 
 #[cfg(test)]
