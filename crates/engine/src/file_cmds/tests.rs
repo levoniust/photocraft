@@ -1248,3 +1248,12 @@ fn batch_naming_rejects_outputs_that_replace_inputs_before_processing() {
     assert_eq!(std::fs::read(&first).unwrap(), before[0]);
     assert_eq!(std::fs::read(&second).unwrap(), before[1]);
 }
+
+/// Batch folder inputs pick up every camera raw the raw decoder opens.
+#[cfg(not(target_arch = "wasm32"))]
+#[test]
+fn batch_inputs_include_every_raw_extension() {
+    for ext in photocraft_raw::EXTENSIONS {
+        assert!(OPENABLE.contains(ext), "{ext} missing from OPENABLE");
+    }
+}

@@ -38,4 +38,9 @@
     <generic-icon name="image-x-generic"/>
     <glob pattern="*.nrw"/>
   </mime-type>
+  <mime-type type="image/x-canon-cr3">
+    <comment>Canon raw image (CR3)</comment>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.cr3"/>
+  </mime-type>
 </mime-info>
