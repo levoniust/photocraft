@@ -32,4 +32,15 @@
     </magic>
     <glob pattern="*.pdn"/>
   </mime-type>
+  <mime-type type="image/x-nikon-nrw">
+    <comment>Nikon raw image (NRW)</comment>
+    <sub-class-of type="image/tiff"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.nrw"/>
+  </mime-type>
+  <mime-type type="image/x-canon-cr3">
+    <comment>Canon raw image (CR3)</comment>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.cr3"/>
+  </mime-type>
 </mime-info>
